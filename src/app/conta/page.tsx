@@ -3,16 +3,16 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { formatPrice } from "@/lib/format";
 import { getServerSupabase } from "@/lib/supabase-server";
-import { sairConta } from "./actions";
+import { abrirSuporte, sairConta } from "./actions";
 import { AccessLinkForm } from "./email-forms";
 
 export const metadata: Metadata = { title: "Minha conta", robots: { index: false } };
 
-export default function AccountPage() {
+export default function AccountPage({ searchParams }: PageProps<"/conta">) {
   return (
     <div className="mx-auto max-w-[692px] px-5 py-12">
       <Suspense fallback={<p className="text-bege">Carregando…</p>}>
-        <Account />
+        <Account searchParams={searchParams} />
       </Suspense>
     </div>
   );
@@ -20,7 +20,8 @@ export default function AccountPage() {
 
 const STATUS: Record<string, string> = { pendente: "Aguardando pagamento", pago: "Pago", cancelado: "Cancelado", expirado: "Expirado", reembolsado: "Reembolsado", reembolso_parcial: "Reembolso parcial" };
 
-async function Account() {
+async function Account({ searchParams }: { searchParams: PageProps<"/conta">["searchParams"] }) {
+  const sp = await searchParams;
   const supabase = await getServerSupabase();
   const { data: u } = await supabase.auth.getUser();
   if (!u.user) {
@@ -45,6 +46,8 @@ async function Account() {
         <form action={sairConta}><button className="text-sm text-bege hover:text-grafite">Sair</button></form>
       </div>
       <p className="mt-2 text-bege">{u.user.email}</p>
+      {sp.suporte === "ok" && <p className="mt-4 rounded-xl bg-[#e8f5ec] px-4 py-3 text-sm text-lima">Mensagem enviada. Respondemos pelo seu e-mail.</p>}
+      {sp.suporte === "erro" && <p className="mt-4 rounded-xl bg-[#fff1f0] px-4 py-3 text-sm text-[#c4291c]">Preencha assunto e mensagem.</p>}
       {!orders?.length && <p className="painel mt-8 p-8 text-center">Nenhuma compra com este e-mail ainda. <Link href="/catalogo" className="text-pink underline">Ver catálogo</Link></p>}
       <div className="mt-8 grid gap-4">
         {orders?.map((o) => (
@@ -72,6 +75,18 @@ async function Account() {
           </div>
         ))}
       </div>
+      <section id="suporte" className="painel mt-10 p-5">
+        <h2 className="titulo text-[24px]">Precisa de ajuda?</h2>
+        <form action={abrirSuporte} className="mt-4 grid gap-3">
+          <select name="pedido" className="campo" defaultValue="">
+            <option value="">Sobre qual pedido? (opcional)</option>
+            {orders?.map((o) => <option key={o.id} value={o.id}>Pedido #{o.number}</option>)}
+          </select>
+          <input name="assunto" required minLength={3} placeholder="Assunto" className="campo" />
+          <textarea name="mensagem" required minLength={5} rows={4} placeholder="Conte o que aconteceu" className="campo" />
+          <button className="btn btn-pink w-fit">Enviar</button>
+        </form>
+      </section>
     </>
   );
 }

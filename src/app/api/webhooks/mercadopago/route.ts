@@ -20,7 +20,12 @@ export async function POST(req: NextRequest) {
     ? verifyMercadoPagoSignature({ secret, signatureHeader: req.headers.get("x-signature"), requestId, dataId, maxAgeSeconds: 60 * 60 * 24 })
     : { valid: false as const, reason: "header_ausente" as const };
 
-  const db = getAdminSupabase();
+  let db;
+  try {
+    db = getAdminSupabase();
+  } catch {
+    return NextResponse.json({ ok: false, erro: "loja ainda não configurada" }, { status: 503 });
+  }
   const eventKey = requestId ?? `${type}:${dataId}:${Date.now()}`;
   const { error } = await db.from("webhook_events").insert({
     provider: "mercadopago",

@@ -16,6 +16,7 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
             ["/admin/personalizacoes", "Personalizações"],
             ["/admin/clientes", "Clientes"],
             ["/admin/criacao", "Central de Criação"],
+            ["/admin/stickers", "Stickers"],
             ["/admin/marketing", "Marketing"],
             ["/admin/relatorios", "Relatórios"],
             ["/admin/automacoes", "Automações"],
