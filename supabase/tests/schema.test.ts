@@ -22,6 +22,12 @@ const SUPABASE_STUB = `
     $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
   grant usage on schema public, auth to anon, authenticated, service_role;
   grant execute on function auth.uid() to anon, authenticated;
+  create schema storage;
+  create table storage.buckets (id text primary key, name text, public boolean);
+  create table storage.objects (id uuid primary key default gen_random_uuid(), bucket_id text, name text);
+  alter table storage.objects enable row level security;
+  grant usage on schema storage to anon, authenticated;
+  grant all on storage.objects to anon, authenticated;
   alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
   alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
   alter default privileges in schema public grant all on functions to anon, authenticated, service_role;
@@ -55,9 +61,11 @@ beforeAll(async () => {
       ('${ADMIN}', 'admin@teste.local'), ('${ANA}', 'ana@teste.local'), ('${BIA}', 'bia@teste.local');
     update profiles set role = 'admin' where id = '${ADMIN}';
     insert into categories (slug, name) values ('posts', 'Posts');
-    insert into products (slug, creative_name, commercial_name, price_cents, status, canva_master_design_id)
-      values ('pack-ativo', 'Coração Apertado', 'Pack Pet 25 posts', 2700, 'ativo', 'DAH-SEGREDO'),
-             ('pack-rascunho', 'Rascunho', 'Pack em revisão', 1900, 'rascunho', null);
+    insert into products (id, slug, creative_name, commercial_name, price_cents, status)
+      values ('00000000-0000-0000-0000-0000000000e1', 'pack-ativo', 'Coração Apertado', 'Pack Pet 25 posts', 2700, 'ativo'),
+             ('00000000-0000-0000-0000-0000000000e2', 'pack-rascunho', 'Rascunho', 'Pack em revisão', 1900, 'rascunho');
+    insert into product_private (product_id, canva_master_design_id)
+      values ('00000000-0000-0000-0000-0000000000e1', 'DAH-SEGREDO');
     insert into customers (id, user_id, email) values
       ('00000000-0000-0000-0000-0000000000c1', '${ANA}', 'ana@teste.local'),
       ('00000000-0000-0000-0000-0000000000c2', '${BIA}', 'bia@teste.local');
@@ -78,10 +86,36 @@ describe("migração e segurança do banco", () => {
     expect(r.rows.map((x) => x.slug)).toEqual(["pack-ativo"]);
   });
 
-  it("visitante não consegue ler o design mestre do Canva", async () => {
+  it("visitante e cliente não leem o design mestre do Canva", async () => {
+    const anon = await as("anon", null, () => db.query("select * from product_private"));
+    expect(anon.rows).toHaveLength(0);
+    const cliente = await as("authenticated", ANA, () => db.query("select * from product_private"));
+    expect(cliente.rows).toHaveLength(0);
+  });
+
+  it("admin lê o design mestre e vê rascunhos", async () => {
+    const priv = await as("authenticated", ADMIN, () =>
+      db.query<{ canva_master_design_id: string }>("select canva_master_design_id from product_private"),
+    );
+    expect(priv.rows[0].canva_master_design_id).toBe("DAH-SEGREDO");
+    const prods = await as("authenticated", ADMIN, () => db.query("select id from products"));
+    expect(prods.rows).toHaveLength(2);
+  });
+
+  it("admin cadastra produto; cliente não consegue", async () => {
+    const insert = (slug: string) =>
+      `insert into products (slug, creative_name, commercial_name, price_cents) values ('${slug}', 'Novo', 'Novo pack', 1000)`;
+    await as("authenticated", ADMIN, () => db.query(insert("novo-1")));
+    await expect(as("authenticated", ANA, () => db.query(insert("novo-2")))).rejects.toThrow(/row-level security/);
+  });
+
+  it("só admin envia imagem para o bucket vitrine", async () => {
+    await as("authenticated", ADMIN, () =>
+      db.query("insert into storage.objects (bucket_id, name) values ('vitrine', 'a.png')"),
+    );
     await expect(
-      as("anon", null, () => db.query("select canva_master_design_id from products")),
-    ).rejects.toThrow(/permission denied/);
+      as("authenticated", ANA, () => db.query("insert into storage.objects (bucket_id, name) values ('vitrine', 'b.png')")),
+    ).rejects.toThrow(/row-level security/);
   });
 
   it("cliente vê apenas os próprios pedidos", async () => {

@@ -32,11 +32,13 @@ Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Edi
 | Migração | Aplicada em produção |
 |---|---|
 | 20261107000001_schema_inicial | sim (07/11/2026) |
-| 20261107000002_busca_publica | pendente |
+| 20261107000002_busca_publica | sim (08/11/2026) |
+| 20261108000003_painel_admin | pendente |
 
 ## Status das fases
 | Fase | Status |
 |---|---|
 | 0 — Fundação (projeto, banco, segurança) | em andamento: esquema + RLS testados; falta conectar Supabase real e login do painel |
 | 1 — Loja (home, catálogo, busca, produto, páginas institucionais) | primeira versão pronta; sem produtos até conectar o banco |
-| 2 a 8 | não iniciadas |
+| 2 — Painel (login, produtos, fotos, categorias) | primeira versão: login e proteção testados com o Supabase real; cadastro aguardando conta admin para teste de ponta a ponta |
+| 3 a 8 | não iniciadas |

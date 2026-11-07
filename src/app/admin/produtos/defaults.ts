@@ -1,0 +1,63 @@
+import { centsToInput } from "@/server/admin/product-input";
+import type { ProductFormDefaults } from "./product-form";
+
+export const emptyProduct: ProductFormDefaults = {
+  creative_name: "",
+  commercial_name: "",
+  slug: "",
+  line: "original",
+  status: "rascunho",
+  category_id: "",
+  description: "",
+  target_audience: "",
+  ideal_for: "",
+  benefits: "",
+  differentials: "",
+  price: "",
+  promo_price: "",
+  keywords: "",
+  product_type: "pack_posts",
+  formats: "PNG, Canva",
+  file_count: "",
+  canva_template_url: "",
+  canva_master_link: "",
+  usage_instructions: "",
+  customizable: false,
+  featured: false,
+  is_new: true,
+  available: true,
+  access_days: "",
+  commercial_valid_until: "",
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function productToDefaults(p: any, masterId: string | null): ProductFormDefaults {
+  return {
+    creative_name: p.creative_name ?? "",
+    commercial_name: p.commercial_name ?? "",
+    slug: p.slug ?? "",
+    line: p.line,
+    status: p.status,
+    category_id: p.category_id ?? "",
+    description: p.description ?? "",
+    target_audience: p.target_audience ?? "",
+    ideal_for: p.ideal_for ?? "",
+    benefits: (p.benefits ?? []).join("\n"),
+    differentials: (p.differentials ?? []).join("\n"),
+    price: centsToInput(p.price_cents),
+    promo_price: centsToInput(p.promo_price_cents),
+    keywords: (p.keywords ?? []).join(", "),
+    product_type: p.product_type,
+    formats: (p.formats ?? []).join(", "),
+    file_count: p.file_count?.toString() ?? "",
+    canva_template_url: p.canva_template_url ?? "",
+    canva_master_link: masterId ? (masterId.startsWith("http") ? masterId : `https://www.canva.com/design/${masterId}/edit`) : "",
+    usage_instructions: p.usage_instructions ?? "",
+    customizable: p.customizable,
+    featured: p.featured,
+    is_new: p.is_new,
+    available: p.available,
+    access_days: p.access_days?.toString() ?? "",
+    commercial_valid_until: p.commercial_valid_until ? String(p.commercial_valid_until).slice(0, 10) : "",
+  };
+}
