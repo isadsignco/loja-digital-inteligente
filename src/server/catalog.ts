@@ -37,8 +37,9 @@ export type Category = { id: string; slug: string; name: string; description: st
 /** Resultado que distingue "sem dados" de "banco ainda não conectado". */
 export type Catalog<T> = { configured: false } | { configured: true; data: T };
 
-const SUMMARY_COLUMNS =
-  "id, slug, line, creative_name, commercial_name, price_cents, promo_price_cents, product_type, customizable, featured, is_new, product_media(storage_path, alt, position)";
+const BASE_COLUMNS =
+  "id, slug, line, creative_name, commercial_name, price_cents, promo_price_cents, product_type, customizable, featured, is_new";
+const SUMMARY_COLUMNS = `${BASE_COLUMNS}, product_media(storage_path, alt, position)`;
 
 type Row = {
   id: string;
@@ -128,7 +129,7 @@ export async function getProduct(slug: string): Promise<Catalog<ProductDetail | 
   const { data, error } = await db
     .from("products")
     .select(
-      `${SUMMARY_COLUMNS}, description, target_audience, ideal_for, benefits, differentials, formats, file_count, access_days, category_id, product_media(storage_path, alt, position, kind)`,
+      `${BASE_COLUMNS}, description, target_audience, ideal_for, benefits, differentials, formats, file_count, access_days, category_id, product_media(storage_path, alt, position, kind)`,
     )
     .eq("slug", slug)
     .eq("status", "ativo")

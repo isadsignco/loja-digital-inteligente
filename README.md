@@ -17,6 +17,8 @@ cp .env.example .env.local   # preencha as chaves
 npm run dev
 ```
 
+> Em ambientes com proxy HTTPS (como as sessões em nuvem do Claude Code), rode com `NODE_USE_ENV_PROXY=1` para o `fetch` do Node usar o proxy.
+
 ## Testes
 ```bash
 npm test
@@ -25,7 +27,12 @@ npm test
 - `src/server/payments/mercadopago-signature.test.ts` testa a validação dos webhooks do Mercado Pago.
 
 ## Banco de dados
-Migrações em `supabase/migrations/`. Para aplicar num projeto Supabase: SQL Editor → colar o arquivo, ou `supabase db push` com a CLI.
+Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Editor → colar o arquivo → Run (cada arquivo uma única vez), ou `supabase db push` com a CLI.
+
+| Migração | Aplicada em produção |
+|---|---|
+| 20261107000001_schema_inicial | sim (07/11/2026) |
+| 20261107000002_busca_publica | pendente |
 
 ## Status das fases
 | Fase | Status |

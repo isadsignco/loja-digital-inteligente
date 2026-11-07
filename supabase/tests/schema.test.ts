@@ -123,10 +123,10 @@ describe("migração e segurança do banco", () => {
     await expect(db.query(insert)).rejects.toThrow(/duplicate key/);
   });
 
-  it("busca encontra produto ignorando acentos", async () => {
-    const r = await db.query<{ slug: string }>(
+  it("busca encontra produto ignorando acentos (como visitante)", async () => {
+    const r = await as("anon", null, () => db.query<{ slug: string }>(
       "select slug from products where search_vector @@ plainto_tsquery('portuguese', unaccent('coracao'))",
-    );
+    ));
     expect(r.rows.map((x) => x.slug)).toEqual(["pack-ativo"]);
   });
 });
