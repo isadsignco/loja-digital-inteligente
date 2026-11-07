@@ -29,8 +29,11 @@ export type ProductDetail = ProductSummary & {
   fileCount: number | null;
   accessDays: number | null;
   categoryId: string | null;
+  colorSlots: ColorSlot[];
   media: { url: string; alt: string; kind: string }[];
 };
+
+export type ColorSlot = { chave: string; rotulo: string; padrao: string };
 
 export type Category = { id: string; slug: string; name: string; description: string | null };
 
@@ -120,7 +123,7 @@ async function loadProduct(slug: string): Promise<Catalog<ProductDetail | null>>
   const { data, error } = await db
     .from("products")
     .select(
-      `${BASE_COLUMNS}, description, target_audience, ideal_for, benefits, differentials, formats, file_count, access_days, category_id, product_media(storage_path, alt, position, kind)`,
+      `${BASE_COLUMNS}, description, target_audience, ideal_for, benefits, differentials, formats, file_count, access_days, category_id, customization_options, product_media(storage_path, alt, position, kind)`,
     )
     .eq("slug", slug)
     .eq("status", "ativo")
@@ -138,6 +141,7 @@ async function loadProduct(slug: string): Promise<Catalog<ProductDetail | null>>
     file_count: number | null;
     access_days: number | null;
     category_id: string | null;
+    customization_options: { cores?: ColorSlot[] } | null;
     product_media: { storage_path: string; alt: string; position: number; kind: string }[];
   };
 
@@ -154,6 +158,7 @@ async function loadProduct(slug: string): Promise<Catalog<ProductDetail | null>>
       fileCount: row.file_count,
       accessDays: row.access_days,
       categoryId: row.category_id,
+      colorSlots: row.customizable ? (row.customization_options?.cores ?? []) : [],
       media: [...row.product_media]
         .sort((a, b) => a.position - b.position)
         .map((m) => ({ url: publicMediaUrl(m.storage_path), alt: m.alt, kind: m.kind })),

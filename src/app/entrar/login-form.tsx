@@ -24,6 +24,7 @@ export function LoginForm({ voltar }: { voltar?: string }) {
       <button disabled={pending} className="btn btn-pink mt-2 justify-center disabled:opacity-60">
         {pending ? "Entrando…" : "Entrar"}
       </button>
+      <a href="/entrar/esqueci" className="mt-1 text-center text-sm text-pink hover:underline">Esqueci minha senha</a>
     </form>
   );
 }

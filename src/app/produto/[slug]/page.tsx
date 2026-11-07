@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { adicionarAoCarrinho } from "@/app/carrinho/actions";
+import { BuyBox } from "@/components/buy-box";
 import { CatalogNotice } from "@/components/catalog-notice";
 import { formatPrice } from "@/lib/format";
 import { getProduct } from "@/server/catalog";
@@ -51,10 +53,8 @@ async function ProductContent({ params }: { params: PageProps<"/produto/[slug]">
           {formatPrice(price)}
         </p>
 
-        {/* Compra e personalização entram nas próximas fases (checkout Mercado Pago e personalização no Canva). */}
-        <p className="mt-6 rounded-2xl bg-creme-2 px-5 py-4 text-[15px] text-bege">
-          Compra online em breve.
-        </p>
+        <BuyBox action={adicionarAoCarrinho.bind(null, p.id)} slots={p.colorSlots} cover={p.media[0]?.url ?? null} />
+        <p className="mt-3 text-sm text-bege">Pix ou cartão · entrega automática por e-mail</p>
 
         {p.description && <p className="mt-6 whitespace-pre-line leading-relaxed">{p.description}</p>}
 

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "main": ".open-next/worker.js",
+  "main": "custom-worker.ts",
   "name": "loja-digital-inteligente",
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -15,5 +15,7 @@
       "service": "loja-digital-inteligente"
     }
   ],
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  // rotina automática (pagamentos, mensagens, agendamentos)
+  "triggers": { "crons": ["*/10 * * * *"] }
 }
