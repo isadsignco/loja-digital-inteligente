@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #f7f2ea;
+  --paper: #fffdf9;
+  --ink: #1f1a17;
+  --ink-soft: #5c524b;
+  --line: #e6ddd1;
+  --accent: #c4512f;
+  --accent-ink: #ffffff;
+  --sage: #7d8f6e;
+  --blush: #f1d4c8;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-sage: var(--sage);
+  --color-blush: var(--blush);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+::selection {
+  background: var(--blush);
+}
