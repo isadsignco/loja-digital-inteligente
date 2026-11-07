@@ -33,7 +33,7 @@ Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Edi
 |---|---|
 | 20261107000001_schema_inicial | sim (07/11/2026) |
 | 20261107000002_busca_publica | sim (08/11/2026) |
-| 20261108000003_painel_admin | pendente |
+| 20261108000003_painel_admin | sim (08/11/2026) |
 
 ## Status das fases
 | Fase | Status |
