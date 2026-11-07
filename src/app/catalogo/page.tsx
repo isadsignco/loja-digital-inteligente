@@ -9,8 +9,8 @@ export const metadata: Metadata = { title: "Catálogo" };
 
 export default function CatalogPage({ searchParams }: PageProps<"/catalogo">) {
   return (
-    <div className="mx-auto max-w-6xl px-7 py-10 sm:px-10">
-      <h1 className="titulo text-[clamp(52px,11vw,112px)]">Catá<span className="text-pink">logo</span></h1>
+    <div className="mx-auto max-w-[1024px] px-5 py-12">
+      <h1 className="titulo text-[40px] sm:text-[56px]">Catálogo</h1>
       <Suspense fallback={<p className="mt-6 text-bege">Carregando…</p>}>
         <CatalogResults searchParams={searchParams} />
       </Suspense>
@@ -34,7 +34,7 @@ async function CatalogResults({ searchParams }: { searchParams: PageProps<"/cata
   ]);
 
   const chip = (active: boolean) =>
-    `pilula shrink-0 border-[1.5px] px-4 py-2 ${active ? "border-pink bg-pink text-creme" : "border-linha-forte hover:border-grafite"}`;
+    `pilula shrink-0 px-4 py-2 text-sm ${active ? "bg-grafite text-white" : "bg-creme-2 hover:bg-[#e8e8ed]"}`;
 
   return (
     <>
@@ -47,10 +47,10 @@ async function CatalogResults({ searchParams }: { searchParams: PageProps<"/cata
           name="q"
           defaultValue={query}
           placeholder="Buscar: doceria, stories, Natal…"
-          className="w-full rounded-full border-[1.5px] border-grafite bg-transparent px-5 py-3 outline-none placeholder:text-bege focus:border-pink"
+          className="w-full rounded-xl bg-creme-2 px-4 py-3 text-[17px] outline-none placeholder:text-bege focus:ring-2 focus:ring-pink"
         />
         {categorySlug && <input type="hidden" name="categoria" value={categorySlug} />}
-        <button className="btn btn-pink py-3">Buscar</button>
+        <button className="btn btn-pink">Buscar</button>
       </form>
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
@@ -76,7 +76,7 @@ async function CatalogResults({ searchParams }: { searchParams: PageProps<"/cata
             <CatalogNotice configured={products.configured} />
           )
         ) : (
-          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {products.data.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}

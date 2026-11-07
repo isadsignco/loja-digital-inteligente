@@ -2,50 +2,43 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { CatalogNotice } from "@/components/catalog-notice";
 import { ProductCard } from "@/components/product-card";
-import { Estrela, Seta } from "@/components/marca";
 import { store } from "@/config/store";
 import { getCategories, getProducts, type ProductSummary } from "@/server/catalog";
 
 export default function Home() {
   return (
     <>
-      <section className="relative mx-auto max-w-6xl overflow-hidden px-7 pb-12 pt-10 sm:px-10 sm:pt-16">
-        <div className="mb-6 flex justify-between text-[13px] font-bold text-bege">
-          <span>packs pra postar</span>
-          <span className="hidden sm:inline">entrega no Canva</span>
-        </div>
-        <h1 className="titulo text-[clamp(52px,12vw,132px)]">
-          Conteúdo
-          <span className="block text-pink">
-            pronto
-            <span className="pilula ml-3 translate-y-[-0.55em] bg-grafite px-4 py-1.5 align-middle text-[0.2em] normal-case tracking-[-0.01em] text-creme">
-              pra postar
-            </span>
-          </span>
-        </h1>
-        <p className="mt-6 max-w-xl text-lg text-bege">{store.description}</p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/catalogo" className="btn btn-pink text-lg">
-            Ver catálogo <Seta />
+      <section className="px-5 pb-16 pt-14 text-center sm:pt-24">
+        <p className="text-[17px] font-semibold text-pink sm:text-[21px]">Packs para redes sociais</p>
+        <h1 className="titulo mx-auto mt-3 max-w-4xl text-[44px] sm:text-[80px]">Conteúdo pronto pra postar.</h1>
+        <p className="mx-auto mt-5 max-w-2xl text-[19px] leading-snug text-bege sm:text-[24px]">{store.description}</p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link href="/catalogo" className="btn btn-pink">
+            Ver catálogo
           </Link>
-          <Link href="/catalogo?personalizavel=1" className="btn btn-contorno text-lg">
+          <Link href="/catalogo?personalizavel=1" className="btn btn-contorno">
             Quero nas minhas cores
           </Link>
         </div>
-        <ol className="mt-12 grid gap-3 sm:grid-cols-3">
-          {[
-            ["Escolha o pack", "Posts, stories e stickers prontos por segmento."],
-            ["Pague com Pix ou cartão", "Confirmação automática em segundos."],
-            ["Edite no Canva", "O link chega no seu e-mail e no WhatsApp."],
-          ].map(([title, text], i) => (
-            <li key={title} className="painel relative overflow-hidden p-6">
-              <span className="titulo text-5xl text-pink">{i + 1}</span>
-              <p className="mt-3 text-lg font-black italic">{title}</p>
-              <p className="mt-1 text-bege">{text}</p>
-            </li>
-          ))}
-        </ol>
-        <Estrela className="pointer-events-none absolute -right-8 top-4 h-28 w-28 animate-[spin_22s_linear_infinite] text-grafite opacity-[0.08]" />
+      </section>
+
+      <section className="bg-creme-2 px-5 py-16">
+        <div className="mx-auto max-w-[1024px]">
+          <h2 className="titulo text-center text-[32px] sm:text-[48px]">Do pagamento ao Canva em minutos.</h2>
+          <ol className="mt-10 grid gap-4 sm:grid-cols-3">
+            {[
+              ["Escolha o pack", "Posts, stories e stickers prontos por segmento."],
+              ["Pague com Pix ou cartão", "Confirmação automática em segundos."],
+              ["Edite no Canva", "O link chega no seu e-mail e no WhatsApp."],
+            ].map(([title, text], i) => (
+              <li key={title} className="rounded-[28px] bg-white p-7">
+                <span className="text-[15px] font-semibold text-bege">Passo {i + 1}</span>
+                <p className="titulo mt-2 text-[24px]">{title}</p>
+                <p className="mt-2 text-[17px] text-bege">{text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <Suspense fallback={<SectionSkeleton />}>
@@ -59,7 +52,7 @@ async function CatalogSections() {
   const [products, categories] = await Promise.all([getProducts(), getCategories()]);
   if (!products.configured || products.data.length === 0) {
     return (
-      <section className="mx-auto max-w-6xl px-7 sm:px-10">
+      <section className="mx-auto mt-16 max-w-[1024px] px-5">
         <CatalogNotice configured={products.configured} />
       </section>
     );
@@ -72,16 +65,16 @@ async function CatalogSections() {
   const offers = all.filter((p) => p.promoPriceCents !== null && p.promoPriceCents < p.priceCents);
 
   return (
-    <div className="space-y-14">
+    <div className="mt-16 space-y-16">
       {categories.configured && categories.data.length > 0 && (
-        <section className="mx-auto max-w-6xl px-7 sm:px-10">
+        <section className="mx-auto max-w-[1024px] px-5">
           <SectionTitle title="Categorias" />
           <div className="flex gap-2 overflow-x-auto pb-2">
             {categories.data.map((c) => (
               <Link
                 key={c.id}
                 href={`/catalogo?categoria=${c.slug}`}
-                className="pilula shrink-0 border-[1.5px] border-linha-forte px-4 py-2 hover:border-grafite"
+                className="pilula shrink-0 bg-creme-2 px-4 py-2 text-sm hover:bg-[#e8e8ed]"
               >
                 {c.name}
               </Link>
@@ -101,9 +94,9 @@ async function CatalogSections() {
 function ProductRow({ title, products, href }: { title: string; products: ProductSummary[]; href?: string }) {
   if (products.length === 0) return null;
   return (
-    <section className="mx-auto max-w-6xl px-7 sm:px-10">
+    <section className="mx-auto max-w-[1024px] px-5">
       <SectionTitle title={title} href={href} />
-      <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {products.slice(0, 8).map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}
@@ -115,10 +108,10 @@ function ProductRow({ title, products, href }: { title: string; products: Produc
 function SectionTitle({ title, href }: { title: string; href?: string }) {
   return (
     <div className="mb-5 flex items-end justify-between gap-4">
-      <h2 className="titulo text-4xl sm:text-6xl">{title}</h2>
+      <h2 className="titulo text-[28px] sm:text-[40px]">{title}</h2>
       {href && (
-        <Link href={href} className="pilula shrink-0 bg-grafite px-4 py-1.5 text-sm text-creme hover:bg-pink">
-          Ver todos
+        <Link href={href} className="shrink-0 text-[17px] text-pink hover:underline">
+          Ver todos ›
         </Link>
       )}
     </div>
@@ -127,9 +120,9 @@ function SectionTitle({ title, href }: { title: string; href?: string }) {
 
 function SectionSkeleton() {
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-2 gap-3 px-7 sm:px-10 sm:gap-5 lg:grid-cols-4">
+    <div className="mx-auto mt-16 grid max-w-[1024px] grid-cols-2 gap-4 px-5 sm:gap-5 lg:grid-cols-4">
       {Array.from({ length: 4 }).map((_, i) => (
-        <div key={i} className="aspect-[4/5] animate-pulse rounded-[26px] bg-creme-2" />
+        <div key={i} className="aspect-[4/5] animate-pulse rounded-[24px] bg-creme-2" />
       ))}
     </div>
   );

@@ -1,15 +1,16 @@
 @import "tailwindcss";
 
-/* Identidade isadsign: creme, grafite, pink; Archivo itálico gigante; pílulas e barras laterais. */
+/* Visual estilo Apple: branco e cinza-claro, tipografia sem serifa grande e firme,
+   azul como única cor de ação, muito respiro e cantos arredondados suaves. */
 :root {
-  --creme: #f3e8cc;
-  --creme-2: #eaddb9;
-  --grafite: #282828;
-  --pink: #e9349e;
-  --lima: #6f8a00;
-  --bege: #6b6352;
-  --linha: rgba(40, 40, 40, 0.16);
-  --linha-forte: rgba(40, 40, 40, 0.42);
+  --creme: #ffffff;          /* fundo principal */
+  --creme-2: #f5f5f7;        /* superfícies e seções alternadas */
+  --grafite: #1d1d1f;        /* texto principal */
+  --pink: #0071e3;           /* ação (azul) */
+  --lima: #248a3d;           /* selo positivo */
+  --bege: #6e6e73;           /* texto secundário */
+  --linha: rgba(0, 0, 0, 0.08);
+  --linha-forte: rgba(0, 0, 0, 0.18);
 }
 
 @theme inline {
@@ -21,13 +22,14 @@
   --color-bege: var(--bege);
   --color-linha: var(--linha);
   --color-linha-forte: var(--linha-forte);
-  --font-sans: var(--font-archivo);
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-inter), "Helvetica Neue", Arial, sans-serif;
 }
 
 html,
 body {
   background: var(--creme);
   color: var(--grafite);
+  letter-spacing: -0.01em;
 }
 
 :focus-visible {
@@ -35,55 +37,47 @@ body {
   outline-offset: 3px;
 }
 
-::selection {
-  background: var(--pink);
-  color: var(--creme);
-}
-
 @layer components {
-  /* título da marca: Archivo Black itálico, caixa alta, entrelinha curta */
   .titulo {
-    font-weight: 900;
-    font-style: italic;
-    text-transform: uppercase;
-    line-height: 0.88;
-    letter-spacing: -0.055em;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
     text-wrap: balance;
   }
   .pilula {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
-    font-weight: 800;
-    font-style: italic;
+    font-weight: 500;
   }
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     border-radius: 999px;
-    padding: 14px 26px;
-    font-weight: 900;
-    font-style: italic;
-    transition: transform 0.2s;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
+    padding: 12px 22px;
+    font-size: 17px;
+    font-weight: 400;
+    transition: background-color 0.2s, color 0.2s;
   }
   .btn-pink {
     background: var(--pink);
-    color: var(--creme);
+    color: #fff;
+  }
+  .btn-pink:hover {
+    background: #0077ed;
   }
   .btn-contorno {
-    border: 1.5px solid var(--linha-forte);
-    color: var(--grafite);
+    border: 1px solid var(--pink);
+    color: var(--pink);
   }
   .btn-contorno:hover {
-    border-color: var(--grafite);
+    background: var(--pink);
+    color: #fff;
   }
   .painel {
-    border: 1.5px solid var(--grafite);
-    border-radius: 34px;
+    background: var(--creme-2);
+    border-radius: 28px;
   }
 }
 

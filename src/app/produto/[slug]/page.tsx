@@ -6,8 +6,8 @@ import { getProduct } from "@/server/catalog";
 
 export default function ProductPage({ params }: PageProps<"/produto/[slug]">) {
   return (
-    <div className="mx-auto max-w-6xl px-7 py-10 sm:px-10">
-      <Suspense fallback={<div className="aspect-[4/5] max-w-md animate-pulse rounded-[26px] bg-creme-2" />}>
+    <div className="mx-auto max-w-[1024px] px-5 py-12">
+      <Suspense fallback={<div className="aspect-[4/5] max-w-md animate-pulse rounded-[28px] bg-creme-2" />}>
         <ProductContent params={params} />
       </Suspense>
     </div>
@@ -28,31 +28,31 @@ async function ProductContent({ params }: { params: PageProps<"/produto/[slug]">
     <article className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
       <div className="grid gap-3">
         {p.media.length === 0 ? (
-          <div className="titulo flex aspect-[4/5] items-center justify-center rounded-[26px] border-[1.5px] border-grafite bg-creme-2 p-6 text-center text-4xl text-grafite/70">
+          <div className="titulo flex aspect-[4/5] items-center justify-center rounded-[28px] bg-creme-2 p-6 text-center text-3xl text-bege">
             {p.creativeName}
           </div>
         ) : (
           p.media.map((m, i) =>
             m.kind === "video" ? (
-              <video key={i} src={m.url} controls playsInline className="w-full rounded-[26px]" />
+              <video key={i} src={m.url} controls playsInline className="w-full rounded-[28px]" />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={i} src={m.url} alt={m.alt} className="w-full rounded-[26px]" loading={i === 0 ? "eager" : "lazy"} />
+              <img key={i} src={m.url} alt={m.alt} className="w-full rounded-[28px]" loading={i === 0 ? "eager" : "lazy"} />
             ),
           )
         )}
       </div>
 
       <div className="lg:sticky lg:top-24 lg:self-start">
-        <p className="text-xs font-extrabold uppercase tracking-[0.1em] text-bege">{p.creativeName}</p>
-        <h1 className="titulo mt-3 text-[clamp(40px,7vw,72px)]">{p.commercialName}</h1>
-        <p className="mt-5 text-3xl font-black italic">
+        <p className="text-[15px] font-semibold text-[#bf4800]">{p.creativeName}</p>
+        <h1 className="titulo mt-2 text-[34px] sm:text-[48px]">{p.commercialName}</h1>
+        <p className="mt-4 text-[21px]">
           {onSale && <span className="mr-3 text-base font-normal text-bege line-through">{formatPrice(p.priceCents)}</span>}
           {formatPrice(price)}
         </p>
 
         {/* Compra e personalização entram nas próximas fases (checkout Mercado Pago e personalização no Canva). */}
-        <p className="mt-6 pilula bg-grafite px-5 py-3 text-creme">
+        <p className="mt-6 rounded-2xl bg-creme-2 px-5 py-4 text-[15px] text-bege">
           Compra online em breve.
         </p>
 
@@ -86,8 +86,8 @@ async function ProductContent({ params }: { params: PageProps<"/produto/[slug]">
 
 function Info({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="border-t-[1.5px] border-linha pt-3">
-      <dt className="font-black italic">{label}</dt>
+    <div className="border-t border-linha pt-4">
+      <dt className="text-[15px] font-semibold">{label}</dt>
       <dd className="mt-1 text-bege">{children}</dd>
     </div>
   );
