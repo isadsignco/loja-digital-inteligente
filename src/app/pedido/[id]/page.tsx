@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { formatPrice, isPast } from "@/lib/format";
-import { getAdminSupabase } from "@/lib/supabase-admin";
+import { tryAdminSupabase } from "@/lib/supabase-admin";
 import { handlePaymentNotification, orderCode } from "@/server/orders";
 import { AutoRefresh, CopyButton } from "./auto-refresh";
 
@@ -24,7 +24,8 @@ async function Order({ params, searchParams }: { params: PageProps<"/pedido/[id]
   const [{ id }, sp] = await Promise.all([params, searchParams]);
   const token = typeof sp.t === "string" ? sp.t : "";
   if (!UUID.test(id) || !UUID.test(token)) notFound();
-  const db = getAdminSupabase();
+  const db = tryAdminSupabase();
+  if (!db) return <p className="painel p-6">A loja ainda está sendo configurada. Tente novamente em instantes.</p>;
 
   // retorno do cartão: confirma consultando a API do Mercado Pago (nunca confiando no retorno)
   const returnedPayment = typeof sp.payment_id === "string" && /^\d+$/.test(sp.payment_id) ? sp.payment_id : null;

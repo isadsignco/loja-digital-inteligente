@@ -12,3 +12,12 @@ export function getAdminSupabase() {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 }
+
+/** Igual a getAdminSupabase, mas retorna null quando a chave ainda não foi configurada. */
+export function tryAdminSupabase() {
+  try {
+    return getAdminSupabase();
+  } catch {
+    return null;
+  }
+}

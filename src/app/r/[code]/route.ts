@@ -1,11 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getAdminSupabase } from "@/lib/supabase-admin";
+import { tryAdminSupabase } from "@/lib/supabase-admin";
 
 /** Link rastreável: registra o clique, guarda a origem por 30 dias e redireciona. */
 export async function GET(req: NextRequest, ctx: RouteContext<"/r/[code]">) {
   const { code } = await ctx.params;
   if (!/^[a-z0-9-]{3,40}$/i.test(code)) return NextResponse.redirect(new URL("/", req.url));
-  const db = getAdminSupabase();
+  const db = tryAdminSupabase();
+  if (!db) return NextResponse.redirect(new URL("/", req.url));
   const { data: link } = await db
     .from("tracking_links")
     .select("id, target_path, utm_source, utm_medium, utm_campaign, utm_content")
