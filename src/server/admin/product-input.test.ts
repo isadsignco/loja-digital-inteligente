@@ -23,6 +23,7 @@ const base: ProductFormValues = {
   canva_master_link: "",
   usage_instructions: "",
   customizable: false,
+  color_slots: "",
   featured: false,
   is_new: true,
   available: true,
@@ -69,9 +70,25 @@ describe("cadastro de produto", () => {
     expect(r.error?.issues[0].path).toEqual(["canva_template_url"]);
   });
 
-  it("produto personalizável exige o design original", () => {
-    const r = productFormSchema.safeParse({ ...base, customizable: true });
-    expect(r.success).toBe(false);
+  it("produto personalizável exige o design original e as cores", () => {
+    expect(productFormSchema.safeParse({ ...base, customizable: true }).success).toBe(false);
+    expect(productFormSchema.safeParse({ ...base, customizable: true, canva_master_link: "https://www.canva.com/design/ABC/edit" }).success).toBe(false);
+    const ok = productFormSchema.parse({
+      ...base,
+      customizable: true,
+      canva_master_link: "https://www.canva.com/design/ABC/edit",
+      color_slots: "Cor principal #B793D6\nCor de destaque: #4b0f35",
+    });
+    expect(ok.product.customization_options).toEqual({
+      cores: [
+        { chave: "cor_principal", rotulo: "Cor principal", padrao: "#b793d6" },
+        { chave: "cor_de_destaque", rotulo: "Cor de destaque", padrao: "#4b0f35" },
+      ],
+    });
+  });
+
+  it("recusa linha de cor mal escrita", () => {
+    expect(productFormSchema.safeParse({ ...base, color_slots: "rosa" }).success).toBe(false);
   });
 
   it("aceita só links do Canva no template", () => {

@@ -41,6 +41,18 @@ export function slugify(text: string) {
     .slice(0, 80);
 }
 
+/** "Cor principal #b793d6" (uma por linha) → opções de cor para o cliente. */
+export function parseColorSlots(raw: unknown) {
+  const slots: { chave: string; rotulo: string; padrao: string }[] = [];
+  for (const line of lines(raw)) {
+    const m = line.match(/^(.*?)[\s:|-]*(#[0-9a-f]{6})$/i);
+    if (!m || !m[1].trim()) return null;
+    const rotulo = m[1].trim();
+    slots.push({ chave: slugify(rotulo).replace(/-/g, "_").slice(0, 30) || `cor_${slots.length + 1}`, rotulo, padrao: m[2].toLowerCase() });
+  }
+  return slots;
+}
+
 /** Extrai o id do design de um link do Canva (canva.com/design/<ID>/...). Links curtos ficam como estão. */
 export function canvaDesignIdFromLink(raw: string): string | null {
   const s = raw.trim();
@@ -100,6 +112,7 @@ export const productFormSchema = z
     canva_master_link: optionalText,
     usage_instructions: optionalText,
     customizable: z.boolean(),
+    color_slots: z.string(),
     featured: z.boolean(),
     is_new: z.boolean(),
     available: z.boolean(),
@@ -137,6 +150,15 @@ export const productFormSchema = z
       });
       return z.NEVER;
     }
+    const slots = parseColorSlots(v.color_slots);
+    if (slots === null) {
+      ctx.addIssue({ code: "custom", path: ["color_slots"], message: "Use uma cor por linha, assim: Cor principal #b793d6" });
+      return z.NEVER;
+    }
+    if (v.customizable && !slots.length) {
+      ctx.addIssue({ code: "custom", path: ["color_slots"], message: "Informe pelo menos uma cor que o cliente pode trocar." });
+      return z.NEVER;
+    }
     const slug = slugify(v.slug || v.commercial_name);
     if (!slug) {
       ctx.addIssue({ code: "custom", path: ["slug"], message: "Endereço inválido." });
@@ -164,6 +186,7 @@ export const productFormSchema = z
         canva_template_url: v.canva_template_url,
         usage_instructions: v.usage_instructions,
         customizable: v.customizable,
+        customization_options: v.customizable ? { cores: slots } : {},
         featured: v.featured,
         is_new: v.is_new,
         available: v.available,
@@ -201,6 +224,7 @@ export function formDataToProductInput(form: FormData): ProductFormValues {
     canva_master_link: str("canva_master_link"),
     usage_instructions: str("usage_instructions"),
     customizable: bool("customizable"),
+    color_slots: str("color_slots"),
     featured: bool("featured"),
     is_new: bool("is_new"),
     available: bool("available"),

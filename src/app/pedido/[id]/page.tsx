@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { formatPrice } from "@/lib/format";
+import { formatPrice, isPast } from "@/lib/format";
 import { getAdminSupabase } from "@/lib/supabase-admin";
 import { handlePaymentNotification, orderCode } from "@/server/orders";
 import { AutoRefresh, CopyButton } from "./auto-refresh";
@@ -43,8 +43,9 @@ async function Order({ params, searchParams }: { params: PageProps<"/pedido/[id]
   type Item = { id: string; product_snapshot: { commercial_name: string }; customization_id: string | null; deliveries: { status: string; canva_link: string | null } | { status: string; canva_link: string | null }[] | null };
   const items = o.order_items as unknown as Item[];
   const deliv = (i: Item) => (Array.isArray(i.deliveries) ? i.deliveries[0] : i.deliveries);
-  const pixExpired = o.pix_expires_at ? new Date(o.pix_expires_at).getTime() < Date.now() : false;
-  const whats = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
+  const pixExpired = isPast(o.pix_expires_at);
+  const { data: ws } = await db.from("store_settings").select("value").eq("key", "whatsapp_numero").maybeSingle();
+  const whats = String(ws?.value ?? process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "").replace(/\D/g, "");
   const waText = encodeURIComponent(`Quero receber meu pedido #${o.number} código ${orderCode(o.access_token)}`);
 
   return (

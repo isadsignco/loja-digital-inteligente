@@ -50,6 +50,7 @@ async function Editor({
           </Link>
         )}
       </div>
+      {sp.ia && <p className="mt-3 rounded-xl bg-[#fff6e5] px-4 py-3 text-sm text-[#a05a00]">Rascunho criado pela IA. Revise os textos e o preço, adicione o link de template do Canva e as fotos, e mude o status para Ativo para publicar.</p>}
       {sp.salvo && <p className="mt-3 rounded-xl bg-[#eef8f0] px-4 py-3 text-sm text-lima">Produto criado. Agora adicione as fotos.</p>}
 
       <section id="midias" className="mt-8 rounded-[24px] bg-creme-2 p-5 sm:p-7">

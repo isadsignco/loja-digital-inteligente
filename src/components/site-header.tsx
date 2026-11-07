@@ -4,7 +4,9 @@ import { store } from "@/config/store";
 const nav = [
   { href: "/catalogo", label: "Catálogo", desktopOnly: false },
   { href: "/catalogo?personalizavel=1", label: "Nas suas cores", desktopOnly: true },
-  { href: "/faq", label: "Ajuda", desktopOnly: false },
+  { href: "/faq", label: "Ajuda", desktopOnly: true },
+  { href: "/conta", label: "Conta", desktopOnly: false },
+  { href: "/carrinho", label: "Carrinho", desktopOnly: false },
 ] as const;
 
 export function SiteHeader() {
@@ -14,7 +16,7 @@ export function SiteHeader() {
         <Link href="/" className="whitespace-nowrap text-[17px] font-semibold tracking-tight">
           {store.name}
         </Link>
-        <nav aria-label="Principal" className="flex items-center gap-5 text-[13px] text-grafite/80">
+        <nav aria-label="Principal" className="flex items-center gap-4 text-[13px] sm:gap-5 text-grafite/80">
           {nav.map((item) => (
             <Link
               key={item.href}

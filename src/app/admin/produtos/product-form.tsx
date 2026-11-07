@@ -25,6 +25,7 @@ export type ProductFormDefaults = {
   canva_master_link: string;
   usage_instructions: string;
   customizable: boolean;
+  color_slots: string;
   featured: boolean;
   is_new: boolean;
   available: boolean;
@@ -151,6 +152,9 @@ export function ProductForm({ action, defaults: d, categories, productTypes }: P
         </Field>
         <div className="grid gap-2 sm:col-span-2">
           <Check name="customizable" label="Permite personalização de cores" defaultChecked={d.customizable} />
+          <Field label="Cores que o cliente pode trocar" hint="Uma por linha, com a cor original do design. Ex.: Cor principal #b793d6" error={err("color_slots")} wide>
+            <textarea name="color_slots" rows={3} defaultValue={d.color_slots} className="campo font-mono text-sm" placeholder={"Cor principal #b793d6\nCor de destaque #4b0f35"} />
+          </Field>
           <Check name="featured" label="Destaque na página inicial" defaultChecked={d.featured} />
           <Check name="is_new" label="Marcar como lançamento" defaultChecked={d.is_new} />
           <Check name="available" label="Disponível para venda" defaultChecked={d.available} />

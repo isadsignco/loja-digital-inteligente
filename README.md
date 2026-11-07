@@ -41,6 +41,24 @@ Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Edi
 | 20261107000001_schema_inicial | sim (07/11/2026) |
 | 20261107000002_busca_publica | sim (08/11/2026) |
 | 20261108000003_painel_admin | sim (08/11/2026) |
+| 20261108000004_venda_entrega | pendente |
+
+## Segredos (Cloudflare → Settings → Variables and Secrets)
+Nunca no código, nunca no chat. Tipo **Secret**:
+
+| Nome | Para quê |
+|---|---|
+| `SUPABASE_SERVICE_ROLE_KEY` | checkout, webhooks, entregas (chave secreta do Supabase) |
+| `MERCADOPAGO_ACCESS_TOKEN` | criar Pix/cartão, consultar e estornar |
+| `MERCADOPAGO_WEBHOOK_SECRET` | validar avisos de pagamento |
+| `RESEND_API_KEY`, `EMAIL_FROM` | e-mails (ex.: `Loja <pedidos@seudominio.com.br>`) |
+| `WHATSAPP_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_APP_SECRET`, `WHATSAPP_VERIFY_TOKEN` | WhatsApp Business |
+| `ANTHROPIC_API_KEY` | Claude (Central de Criação, Pins) |
+| `PINTEREST_ACCESS_TOKEN`, `PINTEREST_BOARD_ID` | publicar Pins |
+| `INSTAGRAM_USER_ID`, `INSTAGRAM_ACCESS_TOKEN` | publicar posts |
+| `CRON_SECRET` | rotina automática a cada 10 min (`custom-worker.ts`) |
+
+Webhooks a cadastrar: Mercado Pago → `/api/webhooks/mercadopago`; Meta (WhatsApp) → `/api/webhooks/whatsapp`.
 
 ## Status das fases
 | Fase | Status |
@@ -48,4 +66,4 @@ Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Edi
 | 0 — Fundação (projeto, banco, segurança) | em andamento: esquema + RLS testados; falta conectar Supabase real e login do painel |
 | 1 — Loja (home, catálogo, busca, produto, páginas institucionais) | primeira versão pronta; sem produtos até conectar o banco |
 | 2 — Painel (login, produtos, fotos, categorias) | primeira versão: login e proteção testados com o Supabase real; cadastro aguardando conta admin para teste de ponta a ponta |
-| 3 a 8 | não iniciadas |
+| 3 a 8 | código pronto (venda, entrega, área do cliente, painel completo, IA, marketing, relatórios); integrações aguardando credenciais e teste real |
