@@ -119,3 +119,27 @@ O total cresce com o volume. Se quiser gastar ainda menos, o agente pode usar o 
 2. **Repositório no GitHub.** É obrigatório, porque este ambiente é temporário. Se não tiver, crio as instruções.
 3. **Nome da marca e domínio.**
 4. **CNPJ/MEI ou CPF**, por causa do Mercado Pago, da Meta e da nota fiscal.
+
+## 8. Decisões adicionais (07/11/2026)
+
+### 8.1 O agente de IA é o Claude
+O agente do site usa a **Claude API** e cuida de todas as frentes do pedido original:
+- cadastro auxiliado de produtos;
+- Central de Criação: packs, frases, stickers;
+- personalização no Canva;
+- Pins e conteúdo para Pinterest, Instagram e TikTok;
+- mensagens, suporte e respostas no WhatsApp e e-mail;
+- monitoramento de falhas e relatórios.
+
+**Regra de segurança:** o que envolve dinheiro e liberação de produto é feito por **código determinístico**, não por decisão da IA.
+- Inclui validar o pagamento, mudar o status do pedido e liberar a entrega.
+- Isso evita que uma mensagem maliciosa ("já paguei, me manda o link") faça a IA liberar um produto.
+- O Claude acompanha esses fluxos, explica falhas e aciona o reenvio. Ele não pode marcar um pedido como pago.
+
+Publicar produtos novos e posts continua exigindo aprovação, ou um piloto automático ligado explicitamente pela proprietária.
+
+### 8.2 Pix com QR Code e valor exato (modelo Uber/Shopee)
+- Cada pedido gera um **Pix dinâmico (cobrança)** pelo Mercado Pago, com QR Code e "copia e cola" únicos, valor exato e prazo de validade (ex.: 30 min).
+- O Mercado Pago avisa o site quando o Pix é pago, e a entrega sai sozinha em segundos.
+- Taxa ≈ 0,99% por Pix (ex.: pack de R$ 27 → ≈ R$ 0,27).
+- **Não usar Pix com chave fixa (estática)** da proprietária: o site não fica sabendo do pagamento e a entrega deixaria de ser automática.
