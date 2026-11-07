@@ -19,6 +19,13 @@ npm run dev
 
 > Em ambientes com proxy HTTPS (como as sessões em nuvem do Claude Code), rode com `NODE_USE_ENV_PROXY=1` para o `fetch` do Node usar o proxy.
 
+## Hospedagem (Cloudflare Workers)
+Deploy pelo adaptador OpenNext (`wrangler.jsonc`, `open-next.config.ts`).
+- Build: `npx opennextjs-cloudflare build`
+- Deploy: `npx opennextjs-cloudflare deploy`
+- Os valores públicos do Supabase ficam em `.env.production` (versionado; só valores públicos).
+- O Cache Components do Next fica desligado: o runtime da Cloudflare ainda não o executa de forma estável (teste local travou as páginas). O catálogo usa `unstable_cache` com a tag `catalogo`.
+
 ## Testes
 ```bash
 npm test

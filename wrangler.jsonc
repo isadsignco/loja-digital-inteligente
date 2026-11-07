@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "loja-digital-inteligente",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      // referência a si mesmo, exigida pelo adaptador (o nome precisa ser igual ao do worker)
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "loja-digital-inteligente"
+    }
+  ],
+  "observability": { "enabled": true }
+}

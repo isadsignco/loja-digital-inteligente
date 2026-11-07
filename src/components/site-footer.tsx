@@ -9,11 +9,6 @@ const links = [
   { href: "/termos", label: "Termos de uso" },
 ] as const;
 
-async function CopyrightYear() {
-  "use cache";
-  return <>{new Date().getFullYear()}</>;
-}
-
 export function SiteFooter() {
   return (
     <footer className="mt-24 bg-creme-2 text-xs text-bege">
@@ -21,7 +16,7 @@ export function SiteFooter() {
         <p className="border-b border-linha pb-4">{store.tagline}. Pagamentos processados pelo Mercado Pago.</p>
         <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            Copyright © <CopyrightYear /> {store.name}. Todos os direitos reservados.
+            Copyright © {new Date().getFullYear()} {store.name}. Todos os direitos reservados.
           </p>
           <ul className="flex flex-wrap gap-x-4 gap-y-2">
             {links.map((l) => (

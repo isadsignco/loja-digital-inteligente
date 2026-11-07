@@ -1,4 +1,4 @@
-import { cacheLife, cacheTag } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { getPublicSupabase, publicMediaUrl } from "@/lib/supabase-public";
 
 export type ProductLine = "original" | "ai_design" | "personalizado";
@@ -75,10 +75,7 @@ function toSummary(row: Row): ProductSummary {
   };
 }
 
-export async function getCategories(): Promise<Catalog<Category[]>> {
-  "use cache";
-  cacheTag("catalogo");
-  cacheLife("minutes");
+async function loadCategories(): Promise<Catalog<Category[]>> {
   const db = getPublicSupabase();
   if (!db) return { configured: false };
   const { data, error } = await db
@@ -89,15 +86,12 @@ export async function getCategories(): Promise<Catalog<Category[]>> {
   return { configured: true, data: data ?? [] };
 }
 
-export async function getProducts(filter: {
+async function loadProducts(filter: {
   categorySlug?: string;
   query?: string;
   line?: ProductLine;
   customizable?: boolean;
 } = {}): Promise<Catalog<ProductSummary[]>> {
-  "use cache";
-  cacheTag("catalogo");
-  cacheLife("minutes");
   const db = getPublicSupabase();
   if (!db) return { configured: false };
 
@@ -119,10 +113,7 @@ export async function getProducts(filter: {
   return { configured: true, data: (data as Row[]).map(toSummary) };
 }
 
-export async function getProduct(slug: string): Promise<Catalog<ProductDetail | null>> {
-  "use cache";
-  cacheTag("catalogo", `produto:${slug}`);
-  cacheLife("minutes");
+async function loadProduct(slug: string): Promise<Catalog<ProductDetail | null>> {
   const db = getPublicSupabase();
   if (!db) return { configured: false };
 
@@ -169,3 +160,13 @@ export async function getProduct(slug: string): Promise<Catalog<ProductDetail | 
     },
   };
 }
+
+/*
+ * Cache do catálogo: 60 s ou até o painel salvar algo (tag "catalogo").
+ * Usa unstable_cache porque o Cache Components do Next ainda não é estável
+ * no runtime da Cloudflare (hospedagem).
+ */
+const CACHE = { tags: ["catalogo"], revalidate: 60 };
+export const getCategories = unstable_cache(loadCategories, ["catalogo-categorias"], CACHE);
+export const getProducts = unstable_cache(loadProducts, ["catalogo-produtos"], CACHE);
+export const getProduct = unstable_cache(loadProduct, ["catalogo-produto"], CACHE);
