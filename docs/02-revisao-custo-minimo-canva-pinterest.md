@@ -143,3 +143,14 @@ Publicar produtos novos e posts continua exigindo aprovação, ou um piloto auto
 - O Mercado Pago avisa o site quando o Pix é pago, e a entrega sai sozinha em segundos.
 - Taxa ≈ 0,99% por Pix (ex.: pack de R$ 27 → ≈ R$ 0,27).
 - **Não usar Pix com chave fixa (estática)** da proprietária: o site não fica sabendo do pagamento e a entrega deixaria de ser automática.
+
+### 8.3 Empresa: CNPJ
+- A loja opera com o **CNPJ** da proprietária.
+- **Mercado Pago:** conta vendedor PJ.
+- **Meta:** verificação da empresa no Business Manager, que libera o WhatsApp Business Platform sem os limites de conta não verificada e facilita a revisão do app do Instagram.
+- **Nota fiscal:** a estrutura para integrar um emissor de NFS-e fica prevista. O enquadramento (MEI, Simples) deve ser confirmado com contador, inclusive se a atividade de venda de produtos digitais é permitida no CNAE atual.
+
+### 8.4 Teste do Canva (07/11/2026)
+- `copy-design` funcionou: o pack de 25 páginas foi copiado e o original ficou inalterado.
+- Recolorir funcionou: 20 elementos da página 1 (formas, ícones, textos e bordas) mudaram para a paleta nova, sem alterar o layout.
+- **Pendente:** confirmar se a cópia abre por link para quem não tem login (teste em janela anônima).
