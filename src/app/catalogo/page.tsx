@@ -9,9 +9,9 @@ export const metadata: Metadata = { title: "Catálogo" };
 
 export default function CatalogPage({ searchParams }: PageProps<"/catalogo">) {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="font-display text-4xl tracking-tight">Catálogo</h1>
-      <Suspense fallback={<p className="mt-6 text-ink-soft">Carregando…</p>}>
+    <div className="mx-auto max-w-6xl px-7 py-10 sm:px-10">
+      <h1 className="titulo text-[clamp(52px,11vw,112px)]">Catá<span className="text-pink">logo</span></h1>
+      <Suspense fallback={<p className="mt-6 text-bege">Carregando…</p>}>
         <CatalogResults searchParams={searchParams} />
       </Suspense>
     </div>
@@ -34,7 +34,7 @@ async function CatalogResults({ searchParams }: { searchParams: PageProps<"/cata
   ]);
 
   const chip = (active: boolean) =>
-    `shrink-0 rounded-full border px-4 py-2 text-sm ${active ? "border-ink bg-ink text-cream" : "border-line bg-paper hover:border-ink/30"}`;
+    `pilula shrink-0 border-[1.5px] px-4 py-2 ${active ? "border-pink bg-pink text-creme" : "border-linha-forte hover:border-grafite"}`;
 
   return (
     <>
@@ -47,10 +47,10 @@ async function CatalogResults({ searchParams }: { searchParams: PageProps<"/cata
           name="q"
           defaultValue={query}
           placeholder="Buscar: doceria, stories, Natal…"
-          className="w-full rounded-full border border-line bg-paper px-5 py-3 text-sm outline-none focus:border-ink/40"
+          className="w-full rounded-full border-[1.5px] border-grafite bg-transparent px-5 py-3 outline-none placeholder:text-bege focus:border-pink"
         />
         {categorySlug && <input type="hidden" name="categoria" value={categorySlug} />}
-        <button className="rounded-full bg-ink px-5 py-3 text-sm font-medium text-cream">Buscar</button>
+        <button className="btn btn-pink py-3">Buscar</button>
       </form>
 
       <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
@@ -71,7 +71,7 @@ async function CatalogResults({ searchParams }: { searchParams: PageProps<"/cata
       <div className="mt-6">
         {!products.configured || products.data.length === 0 ? (
           products.configured && (query || categorySlug || customizable) ? (
-            <p className="text-ink-soft">Nenhum produto encontrado com esses filtros.</p>
+            <p className="text-bege">Nenhum produto encontrado com esses filtros.</p>
           ) : (
             <CatalogNotice configured={products.configured} />
           )

@@ -16,8 +16,8 @@ export default function FaqPage() {
   return (
     <ProsePage title="Perguntas frequentes">
       {faqs.map(([q, a]) => (
-        <details key={q} className="group rounded-2xl border border-line bg-paper p-5">
-          <summary className="cursor-pointer list-none font-medium text-ink">{q}</summary>
+        <details key={q} className="painel p-5">
+          <summary className="cursor-pointer list-none text-lg font-black italic text-grafite">{q}</summary>
           <p className="mt-3">{a}</p>
         </details>
       ))}

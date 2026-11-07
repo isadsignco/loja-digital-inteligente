@@ -11,16 +11,16 @@ const links = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-line bg-paper">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2">
+    <footer className="mt-20 bg-grafite text-creme">
+      <div className="mx-auto grid max-w-6xl gap-8 px-7 py-12 sm:grid-cols-2 sm:px-10">
         <div>
-          <p className="font-display text-lg font-semibold">{store.name}</p>
-          <p className="mt-2 max-w-sm text-sm text-ink-soft">{store.tagline}</p>
+          <p className="titulo text-4xl">{store.name}</p>
+          <p className="mt-3 max-w-sm text-sm text-creme/70">{store.tagline}</p>
         </div>
-        <ul className="grid gap-2 text-sm sm:justify-end">
+        <ul className="grid gap-2 text-sm font-bold sm:justify-end">
           {links.map((l) => (
             <li key={l.href}>
-              <Link href={l.href} className="text-ink-soft hover:text-ink">
+              <Link href={l.href} className="text-creme/80 hover:text-pink">
                 {l.label}
               </Link>
             </li>

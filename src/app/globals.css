@@ -1,36 +1,95 @@
 @import "tailwindcss";
 
+/* Identidade isadsign: creme, grafite, pink; Archivo itálico gigante; pílulas e barras laterais. */
 :root {
-  --cream: #f7f2ea;
-  --paper: #fffdf9;
-  --ink: #1f1a17;
-  --ink-soft: #5c524b;
-  --line: #e6ddd1;
-  --accent: #c4512f;
-  --accent-ink: #ffffff;
-  --sage: #7d8f6e;
-  --blush: #f1d4c8;
+  --creme: #f3e8cc;
+  --creme-2: #eaddb9;
+  --grafite: #282828;
+  --pink: #e9349e;
+  --lima: #6f8a00;
+  --bege: #6b6352;
+  --linha: rgba(40, 40, 40, 0.16);
+  --linha-forte: rgba(40, 40, 40, 0.42);
 }
 
 @theme inline {
-  --color-cream: var(--cream);
-  --color-paper: var(--paper);
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-line: var(--line);
-  --color-accent: var(--accent);
-  --color-accent-ink: var(--accent-ink);
-  --color-sage: var(--sage);
-  --color-blush: var(--blush);
-  --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --color-creme: var(--creme);
+  --color-creme-2: var(--creme-2);
+  --color-grafite: var(--grafite);
+  --color-pink: var(--pink);
+  --color-lima: var(--lima);
+  --color-bege: var(--bege);
+  --color-linha: var(--linha);
+  --color-linha-forte: var(--linha-forte);
+  --font-sans: var(--font-archivo);
 }
 
+html,
 body {
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--creme);
+  color: var(--grafite);
+}
+
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--blush);
+  background: var(--pink);
+  color: var(--creme);
+}
+
+@layer components {
+  /* título da marca: Archivo Black itálico, caixa alta, entrelinha curta */
+  .titulo {
+    font-weight: 900;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+    text-wrap: balance;
+  }
+  .pilula {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    font-weight: 800;
+    font-style: italic;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 999px;
+    padding: 14px 26px;
+    font-weight: 900;
+    font-style: italic;
+    transition: transform 0.2s;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn-pink {
+    background: var(--pink);
+    color: var(--creme);
+  }
+  .btn-contorno {
+    border: 1.5px solid var(--linha-forte);
+    color: var(--grafite);
+  }
+  .btn-contorno:hover {
+    border-color: var(--grafite);
+  }
+  .painel {
+    border: 1.5px solid var(--grafite);
+    border-radius: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }

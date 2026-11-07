@@ -11,12 +11,12 @@ export default function ContactPage() {
       <p>Dúvidas sobre um pedido? Fale com a gente. Se já comprou, tenha o número do pedido em mãos.</p>
       <div className="flex flex-wrap gap-3">
         {store.contactEmail && (
-          <a href={`mailto:${store.contactEmail}`} className="rounded-full bg-ink px-6 py-3 text-sm font-medium text-cream">
+          <a href={`mailto:${store.contactEmail}`} className="btn btn-pink">
             {store.contactEmail}
           </a>
         )}
         {wa && (
-          <a href={`https://wa.me/${wa}`} className="rounded-full border border-ink/20 px-6 py-3 text-sm font-medium text-ink">
+          <a href={`https://wa.me/${wa}`} className="btn btn-contorno">
             WhatsApp
           </a>
         )}
