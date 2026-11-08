@@ -43,6 +43,7 @@ Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Edi
 | 20261108000003_painel_admin | sim (08/11/2026) |
 | 20261108000004_venda_entrega | pendente |
 | 20261109000005_importacao_packs | sim (08/11/2026, pelo conector do Supabase) |
+| 20261109000006_ajustes_seguranca | sim (08/11/2026, pelo conector do Supabase) |
 
 ## Identidade visual (isakit.co)
 - Nome padrão da loja: **isakit.co** (pode ser trocado com `NEXT_PUBLIC_STORE_NAME`).
