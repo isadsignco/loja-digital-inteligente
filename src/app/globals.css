@@ -1,35 +1,44 @@
 @import "tailwindcss";
 
-/* Visual estilo Apple: branco e cinza-claro, tipografia sem serifa grande e firme,
-   azul como única cor de ação, muito respiro e cantos arredondados suaves. */
+/* Identidade isakit.co: fundo branco, superfícies em creme claro, texto grafite,
+   rosa e lima da isadsign só nos destaques. Títulos em Bricolage Grotesque, textos em Figtree.
+   Os nomes dos tokens foram mantidos para não mexer nas telas que já os usam. */
 :root {
   --creme: #ffffff;          /* fundo principal */
-  --creme-2: #f5f5f7;        /* superfícies e seções alternadas */
-  --grafite: #1d1d1f;        /* texto principal */
-  --pink: #0071e3;           /* ação (azul) */
-  --lima: #248a3d;           /* selo positivo */
-  --bege: #6e6e73;           /* texto secundário */
-  --linha: rgba(0, 0, 0, 0.08);
-  --linha-forte: rgba(0, 0, 0, 0.18);
+  --creme-2: #f7f3ea;        /* superfícies, cards e seções alternadas */
+  --creme-marca: #f3e8cc;    /* creme da isadsign (faixas e selos) */
+  --grafite: #282828;        /* texto principal e botão principal */
+  --pink: #b8136f;           /* rosa escuro: links, foco e textos de destaque (contraste AA) */
+  --rosa: #e9349e;           /* rosa da marca: só detalhes e títulos grandes */
+  --lima: #4e6300;           /* texto de status positivo (contraste AA) */
+  --lima-vivo: #9abc05;      /* lima da marca: botão de compra e selos */
+  --amarelo: #fcdd6c;        /* avisos e selos pontuais */
+  --bege: #6b6352;           /* texto secundário */
+  --linha: rgba(40, 40, 40, 0.1);
+  --linha-forte: rgba(40, 40, 40, 0.22);
 }
 
 @theme inline {
   --color-creme: var(--creme);
   --color-creme-2: var(--creme-2);
+  --color-creme-marca: var(--creme-marca);
   --color-grafite: var(--grafite);
   --color-pink: var(--pink);
+  --color-rosa: var(--rosa);
   --color-lima: var(--lima);
+  --color-lima-vivo: var(--lima-vivo);
+  --color-amarelo: var(--amarelo);
   --color-bege: var(--bege);
   --color-linha: var(--linha);
   --color-linha-forte: var(--linha-forte);
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-figtree), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-figtree), system-ui, sans-serif;
 }
 
 html,
 body {
   background: var(--creme);
   color: var(--grafite);
-  letter-spacing: -0.01em;
 }
 
 :focus-visible {
@@ -39,45 +48,87 @@ body {
 
 @layer components {
   .titulo {
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
+    font-family: var(--font-bricolage), var(--font-figtree), system-ui, sans-serif;
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
     text-wrap: balance;
+  }
+  .olho {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bege);
   }
   .pilula {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
-    font-weight: 500;
+    font-weight: 700;
   }
   .btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
     border-radius: 999px;
-    padding: 12px 22px;
-    font-size: 17px;
-    font-weight: 400;
-    transition: background-color 0.2s, color 0.2s;
+    padding: 0 22px;
+    font-size: 16px;
+    font-weight: 700;
+    border: 2px solid transparent;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
   }
+  /* ação principal (o nome antigo foi mantido) */
   .btn-pink {
-    background: var(--pink);
+    background: var(--grafite);
+    border-color: var(--grafite);
     color: #fff;
   }
   .btn-pink:hover {
-    background: #0077ed;
+    background: var(--pink);
+    border-color: var(--pink);
   }
   .btn-contorno {
-    border: 1px solid var(--pink);
-    color: var(--pink);
+    border-color: var(--grafite);
+    color: var(--grafite);
   }
   .btn-contorno:hover {
-    background: var(--pink);
+    background: var(--grafite);
     color: #fff;
+  }
+  /* compra */
+  .btn-lima {
+    background: var(--lima-vivo);
+    border-color: var(--lima-vivo);
+    color: var(--grafite);
+  }
+  .btn-lima:hover {
+    background: var(--grafite);
+    border-color: var(--grafite);
+    color: #fff;
+  }
+  .btn-claro {
+    background: #fff;
+    border-color: #fff;
+    color: var(--grafite);
+  }
+  .btn-claro:hover {
+    background: var(--rosa);
+    border-color: var(--rosa);
+    color: #141414;
   }
   .painel {
     background: var(--creme-2);
-    border-radius: 28px;
+    border-radius: 24px;
+  }
+  .adesivo {
+    display: inline-block;
+    background: #fff;
+    padding: 10px 18px;
+    border-radius: 16px;
+    box-shadow: 0 0 0 1px rgba(40, 40, 40, 0.06), 0 8px 18px rgba(40, 40, 40, 0.14);
   }
 }
 
@@ -92,15 +143,15 @@ body {
   .campo {
     width: 100%;
     border-radius: 12px;
-    border: 1px solid var(--linha-forte);
+    border: 1.5px solid var(--linha-forte);
     background: #fff;
     padding: 11px 14px;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
     outline: none;
   }
   .campo:focus {
     border-color: var(--pink);
-    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.18);
+    box-shadow: 0 0 0 3px rgba(184, 19, 111, 0.18);
   }
 }

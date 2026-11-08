@@ -200,7 +200,7 @@ function Field({ label, hint, error, wide, children }: { label: string; hint?: s
 function Check({ name, label, defaultChecked }: { name: string; label: string; defaultChecked: boolean }) {
   return (
     <label className="flex items-center gap-3 text-[15px]">
-      <input type="checkbox" name={name} defaultChecked={defaultChecked} className="h-5 w-5 accent-[#0071e3]" />
+      <input type="checkbox" name={name} defaultChecked={defaultChecked} className="h-5 w-5 accent-[#b8136f]" />
       {label}
     </label>
   );

@@ -8,8 +8,8 @@ import { getProduct } from "@/server/catalog";
 
 export default function ProductPage({ params }: PageProps<"/produto/[slug]">) {
   return (
-    <div className="mx-auto max-w-[1024px] px-5 py-12">
-      <Suspense fallback={<div className="aspect-[4/5] max-w-md animate-pulse rounded-[28px] bg-creme-2" />}>
+    <div className="mx-auto max-w-[1200px] px-5 py-12">
+      <Suspense fallback={<div className="aspect-[4/5] max-w-md animate-pulse rounded-[22px] bg-creme-2" />}>
         <ProductContent params={params} />
       </Suspense>
     </div>
@@ -30,23 +30,23 @@ async function ProductContent({ params }: { params: PageProps<"/produto/[slug]">
     <article className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
       <div className="grid gap-3">
         {p.media.length === 0 ? (
-          <div className="titulo flex aspect-[4/5] items-center justify-center rounded-[28px] bg-creme-2 p-6 text-center text-3xl text-bege">
+          <div className="titulo flex aspect-[4/5] items-center justify-center rounded-[22px] bg-creme-2 p-6 text-center text-3xl text-bege">
             {p.creativeName}
           </div>
         ) : (
           p.media.map((m, i) =>
             m.kind === "video" ? (
-              <video key={i} src={m.url} controls playsInline className="w-full rounded-[28px]" />
+              <video key={i} src={m.url} controls playsInline className="w-full rounded-[22px]" />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={i} src={m.url} alt={m.alt} className="w-full rounded-[28px]" loading={i === 0 ? "eager" : "lazy"} />
+              <img key={i} src={m.url} alt={m.alt} className="w-full rounded-[22px]" loading={i === 0 ? "eager" : "lazy"} />
             ),
           )
         )}
       </div>
 
       <div className="lg:sticky lg:top-24 lg:self-start">
-        <p className="text-[15px] font-semibold text-[#bf4800]">{p.creativeName}</p>
+        <p className="olho text-pink">{p.creativeName}</p>
         <h1 className="titulo mt-2 text-[34px] sm:text-[48px]">{p.commercialName}</h1>
         <p className="mt-4 text-[21px]">
           {onSale && <span className="mr-3 text-base font-normal text-bege line-through">{formatPrice(p.priceCents)}</span>}
