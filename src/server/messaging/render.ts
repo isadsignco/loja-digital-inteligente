@@ -13,7 +13,7 @@ export function escapeHtml(s: string) {
 /** Texto simples → HTML de e-mail (links clicáveis, quebras de linha). */
 export function textToEmailHtml(text: string) {
   const body = escapeHtml(text)
-    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#0071e3">$1</a>')
+    .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#b8136f">$1</a>')
     .replace(/\n/g, "<br>");
   return `<div style="font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;font-size:16px;line-height:1.55;color:#1d1d1f;max-width:560px">${body}</div>`;
 }

@@ -27,7 +27,7 @@ async function List({ searchParams }: { searchParams: PageProps<"/admin/mensagen
           {t.channel === "email" && <input name="assunto" defaultValue={t.subject ?? ""} className="campo" aria-label="Assunto" />}
           <textarea name="texto" rows={8} defaultValue={t.body} className="campo font-mono text-sm" aria-label="Texto" />
           <div className="flex items-center justify-between gap-3">
-            <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="ativo" defaultChecked={t.active} className="h-4 w-4 accent-[#0071e3]" />Ativa</label>
+            <label className="flex items-center gap-2 text-sm"><input type="checkbox" name="ativo" defaultChecked={t.active} className="h-4 w-4 accent-[#b8136f]" />Ativa</label>
             <button className="btn btn-pink py-2">Salvar</button>
           </div>
         </form>

@@ -21,7 +21,7 @@ export function BuyBox({
     <form action={action} className="mt-6 grid gap-4">
       {slots.length > 0 && (
         <div className="rounded-[24px] bg-creme-2 p-5">
-          <p className="font-semibold">Personalize com as cores da sua marca</p>
+          <p className="titulo text-[22px]">Personalize ao vivo nas cores da sua marca</p>
           <div className="mt-4 overflow-hidden rounded-2xl bg-white">
             {cover && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -64,7 +64,7 @@ export function BuyBox({
           </button>
         </div>
       )}
-      <button className="btn btn-pink justify-center text-[17px]">Adicionar ao carrinho</button>
+      <button className="btn btn-lima justify-center text-[17px]">Adicionar ao carrinho</button>
     </form>
   );
 }

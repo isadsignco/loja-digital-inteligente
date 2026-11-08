@@ -42,6 +42,24 @@ Migrações em `supabase/migrations/`, aplicadas em ordem. Para aplicar: SQL Edi
 | 20261107000002_busca_publica | sim (08/11/2026) |
 | 20261108000003_painel_admin | sim (08/11/2026) |
 | 20261108000004_venda_entrega | pendente |
+| 20261109000005_importacao_packs | sim (08/11/2026, pelo conector do Supabase) |
+| 20261109000006_ajustes_seguranca | sim (08/11/2026, pelo conector do Supabase) |
+
+## Identidade visual (isakit.co)
+- Nome padrão da loja: **isakit.co** (pode ser trocado com `NEXT_PUBLIC_STORE_NAME`).
+- Fundo branco, superfícies creme claro `#F7F3EA`, texto grafite `#282828`.
+- Destaques com as cores da isadsign, sem exagero: rosa `#E9349E` (detalhes e títulos grandes; `#B8136F` em links e textos pequenos), lima `#9ABC05` (botão de compra), amarelo `#FCDD6C` e creme `#F3E8CC` em selos e faixas.
+- Títulos em Bricolage Grotesque e textos em Figtree (Google Fonts via `next/font`).
+- Protótipos navegáveis da loja e do painel: canvas "Loja Digital Inteligente" no Claude.
+
+## Importar packs do Packs isadsign
+Central de Criação → **Importar do Packs isadsign**:
+1. No Packs, gere o pack e baixe o ZIP.
+2. No painel, envie o ZIP. O navegador abre o ZIP, sobe até 8 artes para a vitrine e guarda o ZIP no bucket privado `arquivos` (limite de 50 MB por arquivo no Supabase gratuito).
+3. O servidor cria o produto como **Aguardando aprovação** (linha AI Design, origem `packs`), e o Claude escreve o cadastro a partir da capa e das legendas.
+4. Para publicar, a regra atual continua: informe o link de template do Canva (o Packs também envia o pack para o Canva). A entrega do ZIP por download ainda não está ligada ao checkout.
+
+Requer a migração `20261109000005_importacao_packs`.
 
 ## Segredos (Cloudflare → Settings → Variables and Secrets)
 Nunca no código, nunca no chat. Tipo **Secret**:

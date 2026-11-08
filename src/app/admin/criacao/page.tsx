@@ -1,13 +1,14 @@
 import { Suspense } from "react";
 import { requireAdmin } from "@/server/auth";
 import { dateTime, PageTitle } from "../ui";
-import { ContentForm, ProductAiForm, ResearchForm } from "./forms";
+import { ContentForm, PacksImportForm, ProductAiForm, ResearchForm } from "./forms";
 
 export default function CreationCenter() {
   return (
     <>
       <PageTitle sub="O Claude prepara; você aprova. Nada é publicado sem a sua revisão.">Central de Criação</PageTitle>
-      <section className="painel mt-6 p-5 sm:p-7"><h2 className="titulo mb-4 text-[24px]">Cadastrar produto com IA</h2><ProductAiForm /></section>
+      <section className="painel mt-6 p-5 sm:p-7"><h2 className="titulo mb-1 text-[24px]">Importar do Packs isadsign</h2><p className="mb-4 text-sm text-bege">O pack que você gerou em lote vira um produto aguardando a sua aprovação.</p><PacksImportForm /></section>
+      <section className="painel mt-4 p-5 sm:p-7"><h2 className="titulo mb-4 text-[24px]">Cadastrar produto com IA</h2><ProductAiForm /></section>
       <section className="painel mt-4 p-5 sm:p-7"><h2 className="titulo mb-4 text-[24px]">Gerador de frases e conteúdos</h2><ContentForm /></section>
       <section className="painel mt-4 p-5 sm:p-7"><h2 className="titulo mb-4 text-[24px]">Pesquisar oportunidades</h2><p className="mb-3 text-sm text-bege">Busca na web com fontes. Instagram e TikTok não têm API pública de tendências; o resultado indica de onde veio cada informação.</p><ResearchForm /></section>
       <Suspense fallback={null}><Jobs /></Suspense>

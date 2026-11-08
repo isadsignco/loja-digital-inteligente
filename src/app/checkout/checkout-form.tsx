@@ -24,26 +24,26 @@ export function CheckoutForm() {
       <fieldset className="mt-2 grid gap-2">
         <legend className="mb-2 text-sm font-medium">Pagamento</legend>
         <label className="flex items-center gap-3 rounded-2xl border border-linha-forte p-4 has-[:checked]:border-pink">
-          <input type="radio" name="metodo" value="pix" defaultChecked className="accent-[#0071e3]" />
+          <input type="radio" name="metodo" value="pix" defaultChecked className="accent-[#b8136f]" />
           <span><b className="font-semibold">Pix</b> <span className="text-sm text-bege">· aprovação na hora</span></span>
         </label>
         <label className="flex items-center gap-3 rounded-2xl border border-linha-forte p-4 has-[:checked]:border-pink">
-          <input type="radio" name="metodo" value="cartao" className="accent-[#0071e3]" />
+          <input type="radio" name="metodo" value="cartao" className="accent-[#b8136f]" />
           <span><b className="font-semibold">Cartão de crédito</b> <span className="text-sm text-bege">· ambiente seguro do Mercado Pago</span></span>
         </label>
       </fieldset>
 
       <div className="mt-2 grid gap-2 text-sm">
         <label className="flex items-start gap-3">
-          <input type="checkbox" name="aceite" required className="mt-0.5 h-4 w-4 accent-[#0071e3]" />
+          <input type="checkbox" name="aceite" required className="mt-0.5 h-4 w-4 accent-[#b8136f]" />
           <span>Li e aceito os <Link href="/termos" className="text-pink underline" target="_blank">termos de uso</Link> e a <Link href="/privacidade" className="text-pink underline" target="_blank">política de privacidade</Link>.</span>
         </label>
         <label className="flex items-start gap-3 text-bege">
-          <input type="checkbox" name="mkt_email" className="mt-0.5 h-4 w-4 accent-[#0071e3]" />
+          <input type="checkbox" name="mkt_email" className="mt-0.5 h-4 w-4 accent-[#b8136f]" />
           Quero receber novidades e ofertas por e-mail (opcional).
         </label>
         <label className="flex items-start gap-3 text-bege">
-          <input type="checkbox" name="mkt_whatsapp" className="mt-0.5 h-4 w-4 accent-[#0071e3]" />
+          <input type="checkbox" name="mkt_whatsapp" className="mt-0.5 h-4 w-4 accent-[#b8136f]" />
           Quero receber novidades pelo WhatsApp (opcional).
         </label>
       </div>
